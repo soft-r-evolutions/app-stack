@@ -15,8 +15,10 @@ It is composed of 2 Docker images:
 - MongoDb
 - MongoDb-express
 
-MongoDb contains the database used for the application.
-MongoDb-express is used for dev and debug purposes to easily see the database.
+MongoDb contains the database used for the application.[(Official Documentation)](https://hub.docker.com/_/mongo)
+
+MongoDb-express is used for dev and debug purposes to easily see the database.[(Official Documentation)](https://hub.docker.com/_/mongo-express)
+
 
 ## CLI - Bash
 
