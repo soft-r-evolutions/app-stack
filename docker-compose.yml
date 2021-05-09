@@ -23,3 +23,13 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
     depends_on:
       - mongo
+
+  backend:
+    image: golang
+
+  cli:
+    command: bash
+    build: ./cli
+    depends_on:
+      - mongo-express
+      - backend
