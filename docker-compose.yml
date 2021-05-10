@@ -30,6 +30,8 @@ services:
 
   backend:
     image: golang
+    volumes:
+      - ${PWD}/data/src:/go/src
 
   cli:
     command: bash

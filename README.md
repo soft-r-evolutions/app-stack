@@ -22,6 +22,14 @@ MongoDb-express is used for dev and debug purposes to easily see the database.[(
 
 __Will change to an argument:__ The persistant Database is set to ./data/db
 
+## Backend - Golang
+
+Golang is used for the backend.[(Official Documentation)](https://hub.docker.com/_/golang)
+
+Example for hello-world.go:
+```
+docker-compose run --entrypoint "/usr/local/go/bin/go run src/hello-world.go" backend
+```
 
 ## CLI - Bash
 
