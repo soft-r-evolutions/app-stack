@@ -20,6 +20,8 @@ MongoDb contains the database used for the application.[(Official Documentation)
 
 MongoDb-express is used for dev and debug purposes to easily see the database.[(Official Documentation)](https://hub.docker.com/_/mongo-express)
 
+__Will change to an argument:__ The persistant Database is set to ./data/db
+
 
 ## CLI - Bash
 
