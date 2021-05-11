@@ -20,6 +20,12 @@ MongoDb contains the database used for the application.[(Official Documentation)
 
 MongoDb-express is used for dev and debug purposes to easily see the database.[(Official Documentation)](https://hub.docker.com/_/mongo-express)
 
+```
+docker-compose run mongo-express
+```
+
+When started, MongoDB express is accessible at [http://192.168.124.11:8081](http://192.168.124.11:8081)
+
 __Will change to an argument:__ The persistant Database is set to ./data/db
 
 ## Backend - Python Swagger
@@ -30,7 +36,7 @@ Python Swagger is used for the backend.[(Official Documentation)](https://swagge
 docker-compose run backend
 ```
 
-Then you can access [Swagger here](http://localhost:5000/api/ui)
+When started, Swagger UI is accessible at [http://192.168.124.20:5000/api/ui](http://192.168.124.20:5000/api/ui)
 
 ## CLI - Bash
 
