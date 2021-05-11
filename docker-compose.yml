@@ -29,9 +29,13 @@ services:
       - mongo
 
   backend:
-    image: golang
+    build: ./backend
     volumes:
-      - ${PWD}/data/src:/go/src
+      - ${PWD}/data/src:/code
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo-express
 
   cli:
     command: bash
@@ -39,3 +43,4 @@ services:
     depends_on:
       - mongo-express
       - backend
+
