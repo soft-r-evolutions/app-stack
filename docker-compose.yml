@@ -9,6 +9,9 @@ services:
       - MONGO_INITDB_DATABASE=project
     volumes:
       - ${PWD}/data/db:/data/db
+    networks:
+      net-stack:
+        ipv4_address: 192.168.124.10
 
   mongo-express:
     image: mongo-express
@@ -25,6 +28,9 @@ services:
       - ME_CONFIG_MONGODB_AUTH_PASSWORD=${MONGO_ROOT_PASSWORD}
       - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXPRESS_LOGIN}
       - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
+    networks:
+      net-stack:
+        ipv4_address: 192.168.124.11
     depends_on:
       - mongo
 
@@ -34,13 +40,26 @@ services:
       - ./backend/src:/code
     ports:
       - "5000:5000"
+    networks:
+      net-stack:
+        ipv4_address: 192.168.124.20
     depends_on:
       - mongo-express
 
   cli:
     command: bash
     build: ./cli
+    networks:
+      net-stack:
+        ipv4_address: 192.168.124.2
     depends_on:
-      - mongo-express
       - backend
+
+networks:
+  net-stack:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.124.0/24
 
