@@ -22,6 +22,15 @@ MongoDb-express is used for dev and debug purposes to easily see the database.[(
 
 __Will change to an argument:__ The persistant Database is set to ./data/db
 
+## Backend - Python Swagger
+
+Python Swagger is used for the backend.[(Official Documentation)](https://swagger.io/)
+
+```
+docker-compose run backend
+```
+
+Then you can access [Swagger here](http://localhost:5000/api/ui)
 
 ## CLI - Bash
 
