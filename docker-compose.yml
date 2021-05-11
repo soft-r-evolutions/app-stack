@@ -31,7 +31,7 @@ services:
   backend:
     build: ./backend
     volumes:
-      - ${PWD}/data/src:/code
+      - ./backend/src:/code
     ports:
       - "5000:5000"
     depends_on:
