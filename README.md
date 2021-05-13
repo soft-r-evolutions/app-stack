@@ -28,6 +28,10 @@ When started, MongoDB express is accessible at [http://192.168.124.11:8081](http
 
 __Will change to an argument:__ The persistant Database is set to ./data/db
 
+### Model Structure
+
+![Model Overview](doc/app_env-03-model_overview.png)
+
 ## Backend - Python Swagger
 
 Python Swagger is used for the backend.[(Official Documentation)](https://swagger.io/)
