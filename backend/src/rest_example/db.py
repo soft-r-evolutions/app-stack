@@ -5,10 +5,12 @@ class Db:
     ARG_SERVER_URI_KEY = "server_uri"
     DEFAULT_SERVER_URI = "mongodb://mongo"
 
+    DEFAULT_CONNECT_TIMEOUT = 2000
+
     def __init__(self, **kwargs):
         self.server = kwargs.get(Db.ARG_SERVER_URI_KEY, Db.DEFAULT_SERVER_URI)
 
-        self.client = MongoClient(self.server)
+        self.client = MongoClient(self.server, serverSelectionTimeoutMS=Db.DEFAULT_CONNECT_TIMEOUT)
 
     def connect(self):
         try:
