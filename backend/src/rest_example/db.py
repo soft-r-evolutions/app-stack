@@ -22,12 +22,18 @@ class Db:
             return False
 
     def create_db(self, database_name):
-        self.client[database_name]
+        db = self.client[database_name]
+        mycol = db["to_delete"]
+        mydict = { "name": "John", "address": "Highway 37" }
+
+        x = mycol.insert_one(mydict)
+        print ("inserted id: {}".format(x.inserted_id))
+
 
     def drop_db(self, database_name):
         self.client.drop_database(database_name)
 
-    def get_database_names():
+    def get_database_names(self):
         dbs = self.client.list_database_names()
         print("list databases: {}".format(dbs))
         return dbs
