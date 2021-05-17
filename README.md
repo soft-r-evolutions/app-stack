@@ -42,6 +42,14 @@ docker-compose run backend
 
 When started, Swagger UI is accessible at [http://192.168.124.20:5000/api/ui](http://192.168.124.20:5000/api/ui)
 
+## Backend Test
+
+To test the backend launch the following command.
+
+```
+docker-compose run backend_test
+```
+
 ## CLI - Bash
 
 This image allow to debug and connect other images. This allow to perform actions on other container.
