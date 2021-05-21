@@ -1,19 +1,19 @@
-from rest_example.db import Db
+from app_stack.db.server import Server
 
 TEST_DB_NAME = "testDatabase"
 
-def makeDb():
-    db = Db()
-    db.connect()
-    return db
+def get_server_connection():
+    server = Server()
+    server.connect()
+    return server
 
 class TestClass():
     def setup_class(self):
         print("setup_class called once for the class")
-        db = makeDb()
-        dbs = db.get_database_names()
+        server = get_server_connection()
+        dbs = server.get_database_names()
         if TEST_DB_NAME in dbs:
-            db.drop_db(TEST_DB_NAME)
+            server.drop_db(TEST_DB_NAME)
 
     def teardown_class(self):
         print("teardown_class called once for the class")
@@ -25,28 +25,28 @@ class TestClass():
         print("  teardown_method called for every method")
 
     def test_connect(self):
-        db = Db()
-        assert db.connect()
+        server = Server()
+        assert server.connect()
 
     def test_invalid_connect(self):
         invalid_uri = "mongodb://invalid_mongo"
-        db = Db(server_uri=invalid_uri)
-        assert not db.connect()
+        server = Server(server_uri=invalid_uri)
+        assert not server.connect()
 
     def test_get_database_names(self):
-        db = makeDb()
-        dbs = db.get_database_names()
+        server = get_server_connection()
+        dbs = server.get_database_names()
         assert len(dbs) > 1
 
     def test_db(self):
-        db = makeDb()
-        dbs = db.get_database_names()
+        server = get_server_connection()
+        dbs = server.get_database_names()
         assert not TEST_DB_NAME in dbs
 
-        db.create_db(TEST_DB_NAME)
-        dbs = db.get_database_names()
+        server.create_db(TEST_DB_NAME)
+        dbs = server.get_database_names()
         assert TEST_DB_NAME in dbs
 
-        db.drop_db(TEST_DB_NAME)
-        dbs = db.get_database_names()
+        server.drop_db(TEST_DB_NAME)
+        dbs = server.get_database_names()
         assert not TEST_DB_NAME in dbs
