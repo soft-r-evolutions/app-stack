@@ -13,7 +13,7 @@ class TestClass():
         server = get_server_connection()
         dbs = server.get_database_names()
         if TEST_DB_NAME in dbs:
-            server.drop_db(TEST_DB_NAME)
+            server.drop_db(database=TEST_DB_NAME)
 
     def teardown_class(self):
         print("teardown_class called once for the class")
@@ -27,11 +27,13 @@ class TestClass():
     def test_connect(self):
         server = Server()
         assert server.connect()
+        assert server.is_connected()
 
     def test_invalid_connect(self):
         invalid_uri = "mongodb://invalid_mongo"
         server = Server(server_uri=invalid_uri)
         assert not server.connect()
+        assert not server.is_connected()
 
     def test_get_database_names(self):
         server = get_server_connection()
@@ -43,10 +45,10 @@ class TestClass():
         dbs = server.get_database_names()
         assert not TEST_DB_NAME in dbs
 
-        server.create_db(TEST_DB_NAME)
+        server.create_db(database=TEST_DB_NAME)
         dbs = server.get_database_names()
         assert TEST_DB_NAME in dbs
 
-        server.drop_db(TEST_DB_NAME)
+        server.drop_db(database=TEST_DB_NAME)
         dbs = server.get_database_names()
         assert not TEST_DB_NAME in dbs
