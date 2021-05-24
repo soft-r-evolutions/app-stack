@@ -1,5 +1,6 @@
 import unittest
 from app_stack.db.server import Server
+import app_stack.db.types as types
 
 TEST_DB_NAME = "app_stack_test"
 TMP_DB_NAME = "tmpDatabase"
@@ -67,5 +68,10 @@ def test_get_type_list():
     print ("{}".format(type_list))
 
     assert len(type_list) > 1
-    assert False
 
+def test_find_type_by_name():
+    document = module_server.get_type_by_name("toto")
+    assert not document
+    document = module_server.get_type_by_name(types.STRING_VALUE)
+    print ("{}".format(document))
+    assert document['name'] == types.STRING_VALUE
