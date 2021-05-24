@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
+import app_stack.db.types as types
+
 class Server:
     ARG_SERVER_URI_KEY = "server_uri"
     DEFAULT_SERVER_URI = "mongodb://mongo"
@@ -13,20 +15,6 @@ class Server:
 
     DEFAULT_CONNECT_TIMEOUT = 2000
 
-    ### Types
-    TYPES_COLLECTION_NAME = "types"
-
-    TYPE_NAME_KEY = "name"
-
-    TYPE_VERSION_KEY = "version"
-    DEFAULT_TYPE_VERSION = 1
-
-    TYPE_COLLECTION_KEY = "collection"
-    TYPE_PRIMITIVE_VALUE = "primitive"
-    DEFAULT_TYPE_COLLECTION = TYPE_PRIMITIVE_VALUE
-
-    TYPE_STRING_VALUE = "String"
-    TYPE_NUMBER_VALUE = "Number"
 
     def __init__(self, **kwargs):
         print("Declare MongoDb Server:")
@@ -136,8 +124,8 @@ class Server:
         database_name = kwargs.get(Server.ARG_DATABASE_NAME_KEY, self.database_name)
         print("Initialize MongoDb Server database: {}".format(database_name))
 
-        self.add_type(Server.TYPE_STRING_VALUE, database=database_name)
-        self.add_type(Server.TYPE_NUMBER_VALUE, database=database_name)
+        self.add_type(types.STRING_VALUE, database=database_name)
+        self.add_type(types.NUMBER_VALUE, database=database_name)
 
         return True
 
@@ -150,20 +138,10 @@ class Server:
         database_name = kwargs.get(Server.ARG_DATABASE_NAME_KEY, self.database_name)
         print("Trying to add new type {} to database: {}...".format(type_name, database_name))
 
-        app_stack_type = dict()
-
-        app_stack_type[Server.TYPE_NAME_KEY] = type_name 
-
-        version = kwargs.get(Server.TYPE_VERSION_KEY, self.DEFAULT_TYPE_VERSION)
-        print("- {}: {}".format(Server.TYPE_VERSION_KEY, version))
-        app_stack_type[Server.TYPE_VERSION_KEY] = version
-
-        collection = kwargs.get(Server.TYPE_COLLECTION_KEY, self.DEFAULT_TYPE_COLLECTION)
-        print("- {}: {}".format(Server.TYPE_COLLECTION_KEY, collection))
-        app_stack_type[Server.TYPE_COLLECTION_KEY] = collection
+        app_stack_type = types.make_app_stack_type(type_name, **kwargs)
 
         database = self.client[database_name]
-        types_collection = database[Server.TYPES_COLLECTION_NAME]
+        types_collection = database[types.COLLECTION_NAME]
 
         result = types_collection.insert_one(app_stack_type)
         print ("app_stack_type inserted with id: {}".format(result.inserted_id))
