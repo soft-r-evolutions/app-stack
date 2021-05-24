@@ -1,5 +1,8 @@
 import connexion
-from db.server import Server
+
+import sys, os
+sys.path.insert(0, os.getcwd())
+from app_stack.db.server import Server
 
 server = Server()
 

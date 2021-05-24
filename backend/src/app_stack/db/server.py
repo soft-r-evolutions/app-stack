@@ -147,3 +147,26 @@ class Server:
         print ("app_stack_type inserted with id: {}".format(result.inserted_id))
 
         return result
+
+
+    def get_type_list(self, **kwargs):
+        if not self.is_connected:
+            print("Server must be connected to add a new type.")
+            return False
+
+        database_name = kwargs.get(Server.ARG_DATABASE_NAME_KEY, self.database_name)
+        database = self.client[database_name]
+
+        types_collection = database[types.COLLECTION_NAME]
+
+        cursor = types_collection.find({})
+        print("Database {} type list:".format(database_name))
+        for type_document in cursor:
+            print("- {}".format(type_document))
+
+    def __str__(self):
+        result = "Connection to: {}\n".format(self.server_uri)
+        result += "- Default database: {}\n".format(self.database_name)
+        is_connected_str = "CONNECTED" if self.is_connected else "NOT CONNECTED"
+        result += "- State: {}\n".format(is_connected_str)
+        return result

@@ -1,54 +1,66 @@
+import unittest
 from app_stack.db.server import Server
 
-TEST_DB_NAME = "testDatabase"
+TEST_DB_NAME = "app_stack_test"
+TMP_DB_NAME = "tmpDatabase"
 
-def get_server_connection():
+module_server = Server(database=TEST_DB_NAME)
+
+def _remove_databases():
+    dbs = module_server.get_database_names()
+    if TEST_DB_NAME in dbs:
+        module_server.drop_db()
+    if TMP_DB_NAME in dbs:
+        module_server.drop_db(database=TMP_DB_NAME)
+
+def setup_module():
+    print("setup_class called once for the class")
+    module_server.connect()
+    print (module_server)
+    _remove_databases()
+
+def teardown_module():
+    print("teardown_class called once for the class")
+    _remove_databases()
+
+def setup_method():
+    print("  setup_method called for every method")
+    _remove_databases()
+    module_server.create_db()
+
+def teardown_method():
+    print("  teardown_method called for every method")
+    _remove_databases()
+
+def test_connect():
     server = Server()
-    server.connect()
-    return server
+    assert not server.is_connected()
+    assert server.connect()
+    assert server.is_connected()
 
-class TestClass():
-    def setup_class(self):
-        print("setup_class called once for the class")
-        server = get_server_connection()
-        dbs = server.get_database_names()
-        if TEST_DB_NAME in dbs:
-            server.drop_db(database=TEST_DB_NAME)
+def test_invalid_connect():
+    invalid_uri = "mongodb://invalid_mongo"
+    server = Server(server_uri=invalid_uri)
+    assert not server.connect()
+    assert not server.is_connected()
 
-    def teardown_class(self):
-        print("teardown_class called once for the class")
+def test_get_database_names():
+    dbs = module_server.get_database_names()
+    assert len(dbs) > 1
 
-    def setup_method(self):
-        print("  setup_method called for every method")
+def test_db():
+    dbs = module_server.get_database_names()
+    assert not TMP_DB_NAME in dbs
 
-    def teardown_method(self):
-        print("  teardown_method called for every method")
+    module_server.create_db(database=TMP_DB_NAME)
+    dbs = module_server.get_database_names()
+    assert TMP_DB_NAME in dbs
 
-    def test_connect(self):
-        server = Server()
-        assert server.connect()
-        assert server.is_connected()
+    module_server.drop_db(database=TMP_DB_NAME)
+    dbs = module_server.get_database_names()
+    assert not TMP_DB_NAME in dbs
 
-    def test_invalid_connect(self):
-        invalid_uri = "mongodb://invalid_mongo"
-        server = Server(server_uri=invalid_uri)
-        assert not server.connect()
-        assert not server.is_connected()
+def test_get_type_list():
+    module_server.get_type_list()
 
-    def test_get_database_names(self):
-        server = get_server_connection()
-        dbs = server.get_database_names()
-        assert len(dbs) > 1
-
-    def test_db(self):
-        server = get_server_connection()
-        dbs = server.get_database_names()
-        assert not TEST_DB_NAME in dbs
-
-        server.create_db(database=TEST_DB_NAME)
-        dbs = server.get_database_names()
-        assert TEST_DB_NAME in dbs
-
-        server.drop_db(database=TEST_DB_NAME)
-        dbs = server.get_database_names()
-        assert not TEST_DB_NAME in dbs
+    assert False
