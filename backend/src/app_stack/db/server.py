@@ -161,8 +161,11 @@ class Server:
 
         cursor = types_collection.find({})
         print("Database {} type list:".format(database_name))
+        type_list = []
         for type_document in cursor:
-            print("- {}".format(type_document))
+            type_list.append(type_document)
+            # print("- {}".format(type_document))
+        return type_list
 
     def __str__(self):
         result = "Connection to: {}\n".format(self.server_uri)

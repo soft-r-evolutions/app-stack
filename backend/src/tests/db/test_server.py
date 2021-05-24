@@ -23,12 +23,12 @@ def teardown_module():
     print("teardown_class called once for the class")
     _remove_databases()
 
-def setup_method():
+def setup_function():
     print("  setup_method called for every method")
     _remove_databases()
     module_server.create_db()
 
-def teardown_method():
+def teardown_function():
     print("  teardown_method called for every method")
     _remove_databases()
 
@@ -61,6 +61,11 @@ def test_db():
     assert not TMP_DB_NAME in dbs
 
 def test_get_type_list():
-    module_server.get_type_list()
+    dbs = module_server.get_database_names()
+    print (dbs)
+    type_list = module_server.get_type_list()
+    print ("{}".format(type_list))
 
+    assert len(type_list) > 1
     assert False
+
