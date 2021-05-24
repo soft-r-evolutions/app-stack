@@ -1,7 +1,10 @@
 import connexion
-from db import Db
 
-db = Db()
+import sys, os
+sys.path.insert(0, os.getcwd())
+from app_stack.db.server import Server
+
+server = Server()
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir='../swaggers')

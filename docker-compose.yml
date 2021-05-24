@@ -46,6 +46,16 @@ services:
     depends_on:
       - mongo-express
 
+  backend_test:
+    build: ./backend_test
+    volumes:
+      - ./backend/src:/code
+    networks:
+      net-stack:
+        ipv4_address: 192.168.124.21
+    depends_on:
+      - mongo
+
   cli:
     command: bash
     build: ./cli
