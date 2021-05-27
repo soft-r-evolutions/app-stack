@@ -69,9 +69,30 @@ def test_get_type_list():
 
     assert len(type_list) > 1
 
+def test_add_type():
+    document = module_server.get_type_by_name("toto")
+    assert not document
+    module_server.add_type("toto")
+    document = module_server.get_type_by_name("toto")
+    print ("{}".format(document))
+    assert document['name'] == "toto"
+
 def test_find_type_by_name():
     document = module_server.get_type_by_name("toto")
     assert not document
     document = module_server.get_type_by_name(types.STRING_VALUE)
     print ("{}".format(document))
     assert document['name'] == types.STRING_VALUE
+
+def test_find_type_by_id():
+    document = module_server.get_type_by_id("toto")
+    assert not document
+    result = module_server.add_type("toto")
+    print("toto id : {}".format(result.inserted_id))
+    document = module_server.get_type_by_id(result.inserted_id)
+    print ("{}".format(document))
+    assert document['name'] == "toto"
+    assert document['_id'] == result.inserted_id
+
+
+

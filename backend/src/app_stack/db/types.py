@@ -1,6 +1,7 @@
 COLLECTION_NAME = "types"
 
 TYPE_NAME_KEY = "name"
+TYPE_ID_KEY = "_id"
 
 TYPE_VERSION_KEY = "version"
 DEFAULT_TYPE_VERSION = 1

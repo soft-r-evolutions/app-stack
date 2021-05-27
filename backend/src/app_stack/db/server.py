@@ -182,6 +182,22 @@ class Server:
         type_document = types_collection.find_one({types.TYPE_NAME_KEY: type_name})
         return type_document
 
+
+    def get_type_by_id(self, type_id, **kwargs):
+        if not self.is_connected:
+            print("Server must be connected to add a new type.")
+            return False
+
+        database_name = kwargs.get(Server.ARG_DATABASE_NAME_KEY, self.database_name)
+        database = self.client[database_name]
+
+        types_collection = database[types.COLLECTION_NAME]
+
+        print("Database {} - search type with id: {}".format(database_name, type_id))
+        type_document = types_collection.find_one({types.TYPE_ID_KEY: type_id})
+        return type_document
+
+
     def __str__(self):
         result = "Connection to: {}\n".format(self.server_uri)
         result += "- Default database: {}\n".format(self.database_name)
