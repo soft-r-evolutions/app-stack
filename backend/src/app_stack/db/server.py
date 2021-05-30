@@ -168,6 +168,28 @@ class Server:
         return type_list
 
 
+    def update_type_by_name(self, type_name, **kwargs):
+        if not self.is_connected:
+            print("Server must be connected to update a type.")
+            return False
+
+        database_name = kwargs.get(Server.ARG_DATABASE_NAME_KEY, self.database_name)
+        database = self.client[database_name]
+
+        types_collection = database[types.COLLECTION_NAME]
+
+        app_stack_type = types.make_app_stack_type(type_name, **kwargs)
+        print("Database {} - update type named: {} with value: {}".format(database_name, type_name, app_stack_type))
+
+        query = { types.TYPE_NAME_KEY: type_name }
+        new_values = { "$set": app_stack_type }
+
+        type_document = types_collection.update_one(query, new_values)
+        print("Database {} - type named updated: {} with value: {}".format(database_name, type_name, app_stack_type))
+
+        return type_document
+
+
     def get_type_by_name(self, type_name, **kwargs):
         if not self.is_connected:
             print("Server must be connected to add a new type.")
