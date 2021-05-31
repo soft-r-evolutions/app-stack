@@ -77,6 +77,30 @@ def test_add_type():
     print ("{}".format(document))
     assert document['name'] == "toto"
 
+def test_update_type_by_id():
+    document = module_server.get_type_by_name("toto")
+    assert not document
+    module_server.add_type("toto")
+    document = module_server.get_type_by_name("toto")
+    print ("{}".format(document))
+    _id = document['_id']
+    assert document['name'] == "toto"
+    assert document['collection'] == "primitive"
+    assert document['version'] == 1
+
+    document = module_server.update_type_by_id(_id, name = "tota", version = 2, collection = "totas")
+
+    document = module_server.get_type_by_id(_id)
+    assert _id == document['_id']
+    assert "tota" == document['name']
+    assert document['collection'] == "totas"
+    assert document['version'] == 2
+
+    document = module_server.get_type_by_name("tota")
+    assert _id == document['_id']
+    assert document['collection'] == "totas"
+    assert document['version'] == 2
+
 def test_update_type_by_name():
     document = module_server.get_type_by_name("toto")
     assert not document
