@@ -21,3 +21,5 @@ tags
 
 *.pyc
 .coverage
+
+backend_test/data
